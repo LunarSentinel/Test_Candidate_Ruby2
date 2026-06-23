@@ -53,7 +53,7 @@ def browser_setup(browser = 'firefox')
     Capybara.default_driver = :firefox_driver
   end
 end
-browser_setup('firefox')
+browser_setup('chrome')
 
 configuration = YAML.load_file 'configuration/default.yml'
 $rest_wrap = RestWrapper.new url: 'https://testing4qa.ediweb.ru/api',

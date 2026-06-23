@@ -31,37 +31,49 @@ end
                                                   user_login: login)
     user_id = @scenario_data.users_id[login]
     response = $rest_wrap.delete('/users/'+user_id.to_s)
-    $logger.info("Пользователь #{login} с id:#{@user_id} удалён")
+    $logger.info(response.inspect)
   else
-    $logger.info("Пользователь #{login} отсутствует")
+    $logger.info(response.inspect)
   end 
   
 end
 
 
-Тогда(/^изменяю пароль пользователя с логином (\w+_[0-9])$/) do |login|
+Тогда(/^изменяю у пользователя с логином (\w+[0-9]|[0-9]) имя на (\w+) фамилию на (\w+|\p{Cyrillic}+) пароль на (\w+) и значение поля active на (\-?\w+)$/) do |login, name, surname, password, active_input|
     if @scenario_data.users_id[login].nil?
       @scenario_data.users_id[login] = find_user_id(users_information: @scenario_data.users_full_info,
                                                     user_login: login)
       user_id = @scenario_data.users_id[login]
       response = $rest_wrap.put('/users/'+user_id.to_s, login: login,
-                                         password: 'loh_12345',
-                                         active: 2)
-      $logger.info("Пароль пользователя #{login} с id:#{@user_id} изменен")
+                                       name: name,
+                                       surname: surname,
+                                       password: password,
+                                       active: active_input)
+      $logger.info(response.inspect)
     end
 end
 
-Тогда(/^добавляю пользователя с логином (\w+_[0-9]) именем (\w+) фамилией (\w+) паролем (\w+)$/) do |login, name, surname, password|
+Тогда(/^добавляю пользователя с логином (\w+[0-9]|[0-9]) именем (\w+) фамилией (\w+) паролем (\w+) значением поля active (\-?\w+)$/) do |login, name, surname, password, active_input|
   response = $rest_wrap.post('/users', login: login,
                                        name: name,
                                        surname: surname,
                                        password: password,
-                                       active: 1)
+                                       active: active_input)
   $logger.info(response.inspect)
-  $logger.info("Пользователь c логином #{login} именем #{name} фамилией #{surname} создан")
-  
+    
 end
 
+When(/^добавляю пользователя с параметрами:$/) do |data_table|
+  user_data = data_table.raw
+  
+  login = user_data[0][1]
+  name = user_data[1][1]
+  surname = user_data[2][1]
+  password = user_data[3][1]
+  active_input = user_data[4][1]
+
+  step "добавляю пользователя с логином #{login} именем #{name} фамилией #{surname} паролем #{password} значением поля active #{active_input}"
+end
 
 Тогда(/^нахожу пользователя с логином (\w+) в списке пользователей$/) do |login|
   step %(получаю информацию о пользователях)
@@ -72,5 +84,6 @@ end
   end
 
   $logger.info("Найден пользователь #{login} с id:#{@scenario_data.users_id[login]}")
+  $logger.info(@scenario_data.users_id[login].inspect)
 end
 

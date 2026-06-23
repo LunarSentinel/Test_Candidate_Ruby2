@@ -13,17 +13,62 @@
 @testRESTAPI
 Функция: REST API
 
-  Сценарий: Работа с пользователями через REST API
+
+@testGET
+  Сценарий: Проверка метода GET
 
     Дано получаю информацию о пользователях
-    
+    И нахожу пользователя с логином QA_Micro_Test_Active_0 в списке пользователей
+    И нахожу пользователя с логином QA_Micro_Test_Active_9 в списке пользователей
   
-    И проверяю наличие логина QA_Micro_Test_Active_1 в списке пользователей 
-    И удаляю пользователя по логину QA_Micro_Test_Active_1
+@testPOST
+  Сценарий: Проверка метода POST
+
+    Дано получаю информацию о пользователях
+    И проверяю отсутствие логина QA_Micro_Test_Active_6 в списке пользователей
+    И добавляю пользователя с логином QA_Micro_Test_Active_5 именем Kartofel фамилией Great паролем BigM0n67 значением поля active 1
+    И добавляю пользователя с логином QA_Micro_Test_Active_8 именем Kartofel фамилией Great паролем BigM0n67 значением поля active 0
+    И добавляю пользователя с параметрами: 
+    | login | QA_Micro_Test_Active_7 |
+    | name | Kartofel |
+    | surname | Great |
+    | password | 333 |
+    | active_input | 1 |
+    И добавляю пользователя с логином QA_Micro_Test_Active_15 именем Kartofel фамилией Great паролем BigM0n67 значением поля active 45
+    И добавляю пользователя с логином QA_Micro_Test_Active_9 именем Kartofel фамилией Great паролем BigM0n67 значением поля active -1
+    И добавляю пользователя с логином QA_Micro_Test_Active_10 именем Kartofel фамилией Great паролем BigM0n67 значением поля active abc
+    И добавляю пользователя с логином QA_Micro_Test_Active_6 именем Kartofel фамилией Great паролем BigM0n67 значением поля active 1
+    И добавляю пользователя с логином QA_Micro_Test_Active_7 именем Kartofel фамилией Great паролем 33333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333 значением поля active 1
+
+@testPUT
+  Сценарий: Проверка метода PUT
+    Дано получаю информацию о пользователях
     И проверяю наличие логина QA_Micro_Test_Active_0 в списке пользователей
-    И изменяю пароль пользователя с логином QA_Micro_Test_Active_0 
-   #И удаляю пользователя по логину QA_Micro_Test_Active_5
-    И проверяю отсутствие логина QA_Micro_Test_Active_5 в списке пользователей
-    И добавляю пользователя с логином QA_Micro_Test_Active_5 именем Kartofel фамилией Great паролем BigM0n67
-    И нахожу пользователя с логином QA_Micro_Test_Active_5 в списке пользователей
-   #И добавляю пользователя с логином QA_Micro_Test_Active_1 именем Heh фамилией Null паролем BigMan67
+    И изменяю у пользователя с логином QA_Micro_Test_Active_0 имя на Kartofel фамилию на Oguzok пароль на Mann69 и значение поля active на 1
+    И изменяю у пользователя с логином QA_Micro_Test_Active_0 имя на Kartofel фамилию на Иванов пароль на Mann69 и значение поля active на 1
+    И изменяю у пользователя с логином QA_Micro_Test_Active_0 имя на Kartofel фамилию на Oguzok пароль на Mann69 и значение поля active на 1
+    И изменяю у пользователя с логином QA_Micro_Test_Active_0 имя на Kartofel фамилию на Oguzok пароль на Mann69 и значение поля active на -1
+    И изменяю у пользователя с логином QA_Micro_Test_Active_0 имя на Kartofel фамилию на Oguzok пароль на Mann69 и значение поля active на 2
+    И изменяю у пользователя с логином QA_Micro_Test_Active_0 имя на Kartofel фамилию на Oguzok пароль на Mann69 и значение поля active на heh
+    И изменяю у пользователя с логином QA_Micro_Test_Active_33 имя на Kartofel фамилию на Oguzok пароль на Mann69 и значение поля active на 1
+
+@testDELETE
+  Сценарий: Проверка метода DELETE
+
+  Дано получаю информацию о пользователях
+  И проверяю наличие логина QA_Micro_Test_Active_5 в списке пользователей 
+  И удаляю пользователя по логину QA_Micro_Test_Active_5
+  И удаляю пользователя по логину QA_Micro_Test_Active_65
+
+
+
+@testREST_INTEGR
+ Сценарий: Работа с пользователями через REST API
+
+    Дано получаю информацию о пользователях
+    И проверяю наличие логина QA_Micro_Test_Active_2 в списке пользователей 
+    И удаляю пользователя по логину QA_Micro_Test_Active_2
+    И проверяю наличие логина QA_Micro_Test_Active_8 в списке пользователей
+    И изменяю у пользователя с логином QA_Micro_Test_Active_8 имя на Kartofel фамилию на Oguzok пароль на LOL95 и значение поля active на 1
+    И проверяю отсутствие логина QA_Micro_Test_Active_12 в списке пользователей
+    И добавляю пользователя с логином QA_Micro_Test_Active_12 именем Kartofel фамилией Great паролем BigM0n67 значением поля active 1

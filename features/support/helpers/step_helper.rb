@@ -9,9 +9,10 @@ def find_user_id(users_information:, user_login:)
   end
   users_id.uniq!
 
-  if users_id.size != 1
+  if users_id.size > 1
     raise "Логин пользователя неуникален! Найдено пользователей с аналогичным логином: #{users_id.size}, id: #{users_id.inspect}"
+  elsif users_id.size < 1
+    raise "Логин пользователя отсутствует в списке пользователей."
   end
-
   users_id.first
 end
