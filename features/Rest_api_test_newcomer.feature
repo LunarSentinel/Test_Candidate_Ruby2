@@ -14,52 +14,105 @@
 Функция: REST API
 
 
-@testGET
-  Сценарий: Проверка метода GET
+@testGETPos
+   Структура сценария: Положительные проверки метода GET
 
     Дано получаю информацию о пользователях
-    И нахожу пользователя с логином QA_Micro_Test_Active_0 в списке пользователей
-    И нахожу пользователя с логином QA_Micro_Test_Active_9 в списке пользователей
+    И добавляю пользователя с случайным логином "<random_login>" именем "<name>" фамилией "<surname>" паролем "<password>" значением поля active "<active_input>"
+    И нахожу пользователя с случайным добавленным логином "<random_login>" в прошлом шаге в списке пользователей
+
+    Примеры:
+    | random_login | name | surname | password | active_input |
+    | QA_Micro_Test_Active_ | Kartofel | Great | BigM0n67 | 1 |
+    | QA_Micro_Test_Active_ | Kartofel | Great | BigM0n67 | 0 |
+
+@testGETNeg 
+   Сценарий: Негативная проверка метода GET
+
+    Дано получаю информацию о пользователях
+    И проверяю обработку несуществующего ID равного 6655
+    Тогда получаю ошибку 404 для несуществующего ID равного 6655 
+
+   
   
-@testPOST
-  Сценарий: Проверка метода POST
+@testPOSTPos
+  Структура сценария: Позитивная проверка метода POST
 
     Дано получаю информацию о пользователях
-    И проверяю отсутствие логина QA_Micro_Test_Active_6 в списке пользователей
-    И добавляю пользователя с логином QA_Micro_Test_Active_5 именем Kartofel фамилией Great паролем BigM0n67 значением поля active 1
-    И добавляю пользователя с логином QA_Micro_Test_Active_8 именем Kartofel фамилией Great паролем BigM0n67 значением поля active 0
-    И добавляю пользователя с параметрами: 
-    | login | QA_Micro_Test_Active_7 |
-    | name | Kartofel |
-    | surname | Great |
-    | password | 333 |
-    | active_input | 1 |
-    И добавляю пользователя с логином QA_Micro_Test_Active_15 именем Kartofel фамилией Great паролем BigM0n67 значением поля active 45
-    И добавляю пользователя с логином QA_Micro_Test_Active_9 именем Kartofel фамилией Great паролем BigM0n67 значением поля active -1
-    И добавляю пользователя с логином QA_Micro_Test_Active_10 именем Kartofel фамилией Great паролем BigM0n67 значением поля active abc
-    И добавляю пользователя с логином QA_Micro_Test_Active_6 именем Kartofel фамилией Great паролем BigM0n67 значением поля active 1
-    И добавляю пользователя с логином QA_Micro_Test_Active_7 именем Kartofel фамилией Great паролем 33333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333 значением поля active 1
+    И проверяю наличие логина "<login>" в списке пользователей
+    И удаляю пользователя по логину "<login>"
+    И добавляю пользователя с логином "<login>" именем "<name>" фамилией "<surname>" паролем "<password>" значением поля active "<active_input>"
+    И нахожу пользователя с логином "<login>" в списке пользователей
 
-@testPUT
-  Сценарий: Проверка метода PUT
+    Примеры:
+    | login | name | surname | password | active_input |
+    | QA_Micro_Test_Active_5 | Kartofel | Great | BigM0n67 | 1 |
+    | QA_Micro_Test_Active_8 | Kartofel | Great | BigM0n67 | 0 |
+    | QA_Micro_Test_Active_15 | Kartofel | Great | BigM0n67 | 45 |
+    | QA_Micro_Test_Active_9 | Kartofel | Great | BigM0n67 | -1 |
+    | QA_Micro_Test_Active_6 | Kartofel | Great | BigM0n67 | 1 | 
+
+
+
+@testPOSTNeg
+  Структура сценария: Негативная проверка метода POST
+
     Дано получаю информацию о пользователях
-    И проверяю наличие логина QA_Micro_Test_Active_0 в списке пользователей
-    И изменяю у пользователя с логином QA_Micro_Test_Active_0 имя на Kartofel фамилию на Oguzok пароль на Mann69 и значение поля active на 1
-    И изменяю у пользователя с логином QA_Micro_Test_Active_0 имя на Kartofel фамилию на Иванов пароль на Mann69 и значение поля active на 1
-    И изменяю у пользователя с логином QA_Micro_Test_Active_0 имя на Kartofel фамилию на Oguzok пароль на Mann69 и значение поля active на 1
-    И изменяю у пользователя с логином QA_Micro_Test_Active_0 имя на Kartofel фамилию на Oguzok пароль на Mann69 и значение поля active на -1
-    И изменяю у пользователя с логином QA_Micro_Test_Active_0 имя на Kartofel фамилию на Oguzok пароль на Mann69 и значение поля active на 2
-    И изменяю у пользователя с логином QA_Micro_Test_Active_0 имя на Kartofel фамилию на Oguzok пароль на Mann69 и значение поля active на heh
-    И изменяю у пользователя с логином QA_Micro_Test_Active_33 имя на Kartofel фамилию на Oguzok пароль на Mann69 и значение поля active на 1
+    И проверяю отсутствие логина "<login>" в списке пользователей
+    И добавляю пользователя с логином "<login>" именем "<name>" фамилией "<surname>" паролем "<password>" значением поля active "<active_input>"
+    И нахожу пользователя с логином "<login>" в списке пользователей
 
-@testDELETE
-  Сценарий: Проверка метода DELETE
+    Примеры:
+    | login | name | surname | password | active_input |
+    | QA_Micro_Test_Active_7 | Kartofel | Great | 33333333333333333333333333333333333333333333333333 | 1 |
+    | QA_Micro_Test_Active_10 | Kartofel | Great | BigM0n67 | abc |
 
-  Дано получаю информацию о пользователях
-  И проверяю наличие логина QA_Micro_Test_Active_5 в списке пользователей 
-  И удаляю пользователя по логину QA_Micro_Test_Active_5
-  И удаляю пользователя по логину QA_Micro_Test_Active_65
 
+
+@testPUTPos
+  Структура сценария: Негативная проверка метода PUT
+
+    Дано получаю информацию о пользователях
+    И проверяю наличие логина "<login>" в списке пользователей
+    И изменяю у пользователя с логином "<login>" имя на "<name>" фамилию на "<surname>" пароль на "<password>" и значение поля active на "<active_input>"
+    И проверяю изменения по логину "<login>"
+
+    Примеры:
+    | login | name | surname | password | active_input |
+    | QA_Micro_Test_Active_0 | Kartofel | Oguzok | Mann69 | 1 |
+    | QA_Micro_Test_Active_0 | Kartofel | Иванов | Mann69 | 1 |
+    | QA_Micro_Test_Active_0 | Kartofel | Oguzok | Mann69 | 0 |
+    | QA_Micro_Test_Active_0 | Kartofel | Oguzok | Mann69 | -1 |
+    | QA_Micro_Test_Active_0 | Kartofel | Oguzok | Mann69 | 2 |
+
+@testPUTNeg
+  Структура сценария: Позитиивная проверка метода PUT
+
+    Дано получаю информацию о пользователях
+    И изменяю у пользователя с логином "<login>" имя на "<name>" фамилию на "<surname>" пароль на "<password>" и значение поля active на "<active_input>"
+    И проверяю изменения по логину "<login>"
+
+    Примеры:
+
+    | login | name | surname | password | active_input |
+    | QA_Micro_Test_Active_0 | Kartofel | Oguzok | Mann69 | heh |
+    | QA_Micro_Test_Active_33 | Kartofel | Oguzok | Mann69 | 1 | 
+
+
+@testDELETEPos
+  Сценарий: Позитивная проверка метода DELETE
+
+    И проверяю отсутствие логина QA_Micro_Test_Active_4 в списке пользователей 
+    И добавляю пользователя с логином QA_Micro_Test_Active_4 именем "Kartofel" фамилией "Great" паролем "BigM0n67" значением поля active "1"
+    И удаляю пользователя по логину QA_Micro_Test_Active_4
+    И проверяю отсутствие логина QA_Micro_Test_Active_4 в списке пользователей 
+
+
+@testDELETENeg
+  Сценарий: Негативная проверка метода DELETE 
+
+    И проверяю отсутствие логина "QA_Micro_Test_Active_65" в списке пользователей 
+    И удаляю пользователя по логину "QA_Micro_Test_Active_65"
 
 
 @testREST_INTEGR
@@ -68,7 +121,6 @@
     Дано получаю информацию о пользователях
     И проверяю наличие логина QA_Micro_Test_Active_2 в списке пользователей 
     И удаляю пользователя по логину QA_Micro_Test_Active_2
-    И проверяю наличие логина QA_Micro_Test_Active_8 в списке пользователей
-    И изменяю у пользователя с логином QA_Micro_Test_Active_8 имя на Kartofel фамилию на Oguzok пароль на LOL95 и значение поля active на 1
-    И проверяю отсутствие логина QA_Micro_Test_Active_12 в списке пользователей
-    И добавляю пользователя с логином QA_Micro_Test_Active_12 именем Kartofel фамилией Great паролем BigM0n67 значением поля active 1
+    И добавляю пользователя с логином QA_Micro_Test_Active_2 именем Kartofel фамилией Great паролем BigM0n67 значением поля active 1
+    И изменяю у пользователя с логином QA_Micro_Test_Active_2 имя на Kartofel фамилию на Oguzok пароль на LOL95 и значение поля active на 1
+    И проверяю изменения по логину QA_Micro_Test_Active_2

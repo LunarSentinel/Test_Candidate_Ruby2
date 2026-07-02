@@ -16,8 +16,21 @@ class RestWrapper
                                            password: password,
                                            accept: 'application/json',
                                            headers: { content_type: 'application/json' }
-    JSON.parse(response)
-  rescue StandardError => e
+    real_status = response.code
+    json_response = JSON.parse(response)
+    json_status = if json_response.is_a?(Array)
+                json_response.first['status']
+              else
+                json_response['status']
+              end
+    if json_status == real_status || json_status.nil?
+      JSON.parse(response)
+      
+    else
+      message =  $logger.info("Статусы от сервера и в теле не совпадают. Статус от сервера:#{real_status} Статус в теле :#{json_status}")
+      JSON.parse(response)
+    end
+    rescue StandardError => e
     send_error e
   end
 
@@ -62,6 +75,7 @@ class RestWrapper
   def send_error(exception)
     puts exception.inspect
     body = exception.response.body
+   # puts body
     raise_message = if body.class == String
                       "Ошибка #{exception.response.code} с текстом #{JSON.parse(body)}"
                     else
