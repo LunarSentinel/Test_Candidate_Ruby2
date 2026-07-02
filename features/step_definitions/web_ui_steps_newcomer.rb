@@ -19,17 +19,6 @@ end
   $logger.info("Последняя версия Ruby загружена")
 end
 
-Тогда(/^проверяю, что файл находится в нужной директории$/) do
-  check = Dir.children(File.expand_path('features/tmp'))
-  @folder_filled=''
-  if !check.empty?
-    $logger.info("Необходима очистка хранилища. В папке есть иная версия Ruby:#{check}")
-    @folder_filled='Есть файлы'
-  else 
-    $logger.info('Хранилище не содержит иную версию Ruby. Можно спокойно скачивать последнюю версию.')
-  end
-end
-
 Тогда(/^проверяю есть ли в папке иная версия Ruby$/) do
   check = Dir.children(File.expand_path('features/tmp'))
   @folder_filled=''
@@ -40,6 +29,17 @@ end
     $logger.info('Хранилище не содержит иную версию Ruby. Можно спокойно скачивать последнюю версию.')
   end
 end
+
+
+Тогда(/^проверяю, что файл находится в нужной директории$/) do
+  check = Dir.children(File.expand_path('features/tmp'))
+  if !check.empty?
+    $logger.info("Недавно скачанный файл находится в нужной директории")
+  else 
+    $logger.info('В директории нет файлов')
+  end
+end
+
 
 Тогда(/^очищаю хранилище от файлов$/) do
   
@@ -61,8 +61,9 @@ end
   link_first = find(:xpath,"(//li[*[contains(text(), 'Стабильные релизы')]]//*[contains(text(),'Ruby')])[1]")
   link_href = link_first[:href]
   link_file_name = File.basename(link_href)
- if link_file_name+'.crdownload'==Dir.children(File.expand_path('features/tmp')).last
-    $logger.info("Файл находится в нужной директории")
+  directory_file=Dir.children(File.expand_path('features/tmp')).last
+ if link_file_name+'.crdownload'==directory_file
+    $logger.info("Имя файла на сайте:#{link_file_name+'.crdownload'}. Имя файла в директории:#{directory_file}")
   else
     $logger.error("Файл отсутствует в нужной директории")
   end
